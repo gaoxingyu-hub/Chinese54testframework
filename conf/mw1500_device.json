@@ -1,8 +1,39 @@
 {
-    "title":"MW-1500微波通信设备",
-    "module_name":"mw1500_device",
-    "test_case": ["收发信机单元/发信机","收发信机单元/收信机","低噪声放大器","功放","自环器","滤波器","波导开关","耦合器","监控模块"],
-    "test_source": [{
+    "title":"模块MW-1500电台",
+    "module_name":"mw1500_radio",
+    "test_case": ["mw1500_radio"],
+    "test_case_detail":[
+	        {
+	            "case_name": "",
+	            "title": "MW1500电台",
+	            "steps":[
+	            	{"img":"1.jpg","title":"1.监控测试策略","contents":"设置被测设备上电2分钟，设置被测设备测试频率（发射频率1350MHz，接收频率1850MHz，通过目测监控界面进行比对，判断设备性能指标","module": "DialogTest1"},
+	            	{"img":"2.jpg","title":"2.勤务话(EOW)测试","contents":"设备加电，打开被测设备电源开关，如图所示，将开关打到“MARCHE”位置；设置被测设备设备上电2分钟,设置被测设备设置基带自环，监控主界面显示误码率为零，使用勤务话手柄通话测试，按下PTT键，自己说话能听见自己的清晰声音，则EOW正常，否则，EOW或网络控制单元A8故障","module": "DialogTest2"},
+	                {"img":"3.jpg","title":"3.LNA和射频自环器测试策略","contents":"关闭设备电源，将开关打到“ARRET”位置，并断开机箱电源线","module": "DialogTest3"},
+	                {"img":"4.jpg","title":"4.LNA和射频自环器测试策略","contents":"使用十字型螺丝刀拧下机箱前面板边缘的12个螺钉","module": "DialogTest3"},
+	                {"img":"5.jpg","title":"5.LNA和射频自环器测试策略","contents":"拆除前面板,使用十字型螺丝刀拧下机箱后面板边缘的12个螺钉","module": "DialogTest3"},
+	                {"img":"6.jpg","title":"6.LNA和射频自环器测试策略","contents":"断开收发信机A5面板上电缆XS1，XS2，断开前面板电缆XS1,拧下固定螺钉","module": "DialogTest3"},
+	                {"img":"","title":"7.LNA和射频自环器测试策略","contents":"取出自环器模块","module": "DialogTest3"},
+	                {"img":"8.jpg","title":"8.LNA和射频自环器测试策略","contents":"打开被测设备电源开关，将开关打到“MARCHE”位置","module": "DialogTest3"},
+                                {"img":"","title":"9.LNA和射频自环器测试策略","contents":"设置信号源输出频率为表 7测试频率表频率组1发射频率，输出电平为0 dBm，设置频谱仪中心频率为表 7测试频率表频率组1接收频率，带宽50 MHz，参考电平0 dBm","module": "DialogTest11"},
+                                {"img":"","title":"10.双工器测试,发滤波器单元测试","contents":"打开设备开关，2分钟后，观察设备主监控界面显示的发工作频率F1，收工作频率F2并记录","module": "DialogTest3"},
+                                {"img":"","title":"11.双工器测试,发滤波器单元测试","contents":"将信号源设置为扫描状态，起始频率设置为1300MHz，终止频率设置为1900MHz，扫描步进为1MHz，输出功率设置为0dBm","module": "DialogTest12"},
+                                {"img":"12.jpg","title":"12.双工器测试,发滤波器单元测试","contents":"将频谱仪起始频率设置为1300NHz，终止频率设置为1900Mz ，设置频谱仪 TRACE  菜单下，按下子菜单Max Hold 键；大约10分钟后观察频谱仪，是否出现下图所示图形，如果没出现则双工器故障","module": "DialogTest13"},
+                                {"img":"","title":"13.双工器测试,发滤波器单元测试","contents":"在频谱仪控制示面板上，按下MRK 键，按下子菜单M1 键,分别记录频标的频率Ft1及幅度At1；按下MRK 键，转动频谱仪旋钮，使频标MK1 到达图14所在位置，分别记录频标的频率Ft2及幅度At2","module": "DialogTest3"},
+                                {"img":"","title":"14.双工器测试,发滤波器单元测试","contents":"将频谱仪的衰减量设置为1Bm/每格，幅度衰减打到合适的衰减值，可以读出Ft1－ Ft2带宽内信号幅度的波动范围ΔA，记录填入下表","module": "DialogTest3"},
+                                {"img":"","title":"15.双工器测试,收滤波器单元测试","contents":"打开设备开关，2分钟后，观察设备主监控界面显示的发工作频率F1，收工作频率F2并记录","module": "DialogTest3"},
+                                {"img":"","title":"16.双工器测试,收滤波器单元测试","contents":"将信号源设置为扫描状态，起始频率设置为1300MHz，终止频率设置为1900MHz，扫描步进为1MHz，输出功率设置为0dBm","module": "DialogTest12"},
+                                {"img":"12.jpg","title":"17.双工器测试,收滤波器单元测试","contents":"将频谱仪起始频率设置为1300NHz，终止频率设置为1900Mz ，设置频谱仪 TRACE  菜单下，按下子菜单Max Hold 键；大约10分钟后观察频谱仪，是否出现下图所示图形，如果没出现则双工器故障","module": "DialogTest13"},
+                                {"img":"","title":"18.双工器测试,收滤波器单元测试","contents":"在频谱仪控制示面板上，按下MRK 键，按下子菜单M1 键,分别记录频标的频率Ft1及幅度At1；按下MRK 键，转动频谱仪旋钮，使频标MK1 到达图14所在位置，分别记录频标的频率Ft2及幅度At2","module": "DialogTest3"},
+                                {"img":"","title":"19.双工器测试,收滤波器单元测试","contents":"将频谱仪的衰减量设置为1Bm/每格，幅度衰减打到合适的衰减值，可以读出Ft1－ Ft2带宽内信号幅度的波动范围ΔA，记录填入下表","module": "DialogTest3"}
+		      ],
+	            "test_para":["1350","1850","0","50","0","1300","1900","1"],
+                            "test_para1":["1350","1450","1550","1650","1750","1850","1850","1750","1650","1550","1450","1350"]
+	        }
+    ],
+
+
+ "test_source": [{
 			"name": "信号源",
 			"number": "keysight E8257D",
 			"count": "1",
@@ -22,196 +53,5 @@
 			"number": "keysight DSOX3012A",
 			"count": "1",
 			"type": "仪器仪表"
-	},{
-			"name": "电源线",
-			"number": "W001/220V",
-			"count": "1",
-			"type": "测试附件"
-	},{
-			"name": "电源线",
-			"number": "W002/数据线",
-			"count": "1",
-			"type": "测试附件"
-	},{
-			"name": "射频电缆",
-			"number": "W003/(N/SMA-J/J)",
-			"count": "1",
-			"type": "测试附件"
-	},{
-			"name": "射频电缆",
-			"number": "W004/(N/SMA-J/J)",
-			"count": "1",
-			"type": "测试附件"
-	},{
-			"name": "射频电缆",
-			"number": "W005/(SMA/SMA-J/J)",
-			"count": "1",
-			"type": "测试附件"
-	},{
-			"name": "射频电缆",
-			"number": "W006/(SMA/SMA-J/J)",
-			"count": "1",
-			"type": "测试附件"
-	},{
-			"name": "射频电缆",
-			"number": "W007/(SMA/SMA-J/J)",
-			"count": "1",
-			"type": "测试附件"
-	},{
-			"name": "射频电缆",
-			"number": "W008/(SMA/SMA-J/J)",
-			"count": "1",
-			"type": "测试附件"
-	},{
-			"name": "测试台",
-			"number": "TA001",
-			"count": "1",
-			"type": "测试附件"
-	},{
-			"name": "衰减器",
-			"number": "TA002",
-			"count": "1",
-			"type": "测试附件"
-	},{
-			"name": "N转换",
-			"number": "TA004/(N/N-K/K)",
-			"count": "1",
-			"type": "测试附件"
-	},{
-			"name": "SMA转换",
-			"number": "TA005/(SMA-K/K)",
-			"count": "1",
-			"type": "测试附件"
-	}],
-    "test_case_detail":[
-	        {
-	            "case_name": "收发信机单元/发信机",
-	            "title": "收发信机单元/发信机故障定位",
-	            "steps":[
-	            	{"img":"","title":"MW-1500微波通信设备-收发信机单元/发信机","contents":"进行收发信机单元测试时需要对被测设备进行前面板拆除，所需工具为中号一字螺丝刀","module": "DialogPic"},
-	            	{"img":"","title":"MW-1500微波通信设备-收发信机单元/发信机","contents":"设置功率计频率并校准","module": "DialogPic"},
-			        {"img":"tr_t_1.png","title":"MW-1500微波通信设备-收发信机单元/发信机","contents":"关闭设备电源，如图所示，将开关打到“OFF”位置，并断开机箱电源线","module": "DialogPic"},
-			        {"img":"tr_t_2.png","title":"MW-1500微波通信设备-收发信机单元/发信机","contents":"使用十字型螺丝刀拧下机箱前面板边缘的12个螺钉，如图所示，螺钉如红色圆圈所标位置","module": "DialogPic"},
-			        {"img":"tr_t_3.png","title":"MW-1500微波通信设备-收发信机单元/发信机","contents":"拆除前面板，收发信机单元A5视图如图所示","module": "DialogPic"},
-			        {"img":"tr_t_4.png","title":"MW-1500微波通信设备-收发信机单元/发信机","contents":"按照图连接测试设备","module": "DialogPic"},
-			        {"img":"tr_t_1.png","title":"MW-1500微波通信设备-收发信机单元/发信机","contents":"设备加电打开被测设备电源开关，如图所示，将开关打到“ON”位置；设备上电5分钟","module": "DialogPic"},
-			        {"img":"","title":"MW-1500微波通信设备-收发信机单元/发信机","contents":"测试频点设置","module": "AUTO_TEST_TR_T"}
-			    ],
-			    "test_para":["1750","1550","1350"],
-			    "threshold":["-2","2"]
-	        },
-	        {
-	            "case_name": "收发信机单元/收信机",
-	            "title": "收发信机单元/收信机故障定位",
-	            "steps":[
-	            	{"img":"","title":"MW-1500微波通信设备-收发信机单元/收信机","contents":"进行收发信机单元测试时需要对被测设备进行前面板拆除，所需工具为中号一字螺丝刀","module": "DialogPic"},
-	            	{"img":"tr_t_1.png","title":"MW-1500微波通信设备-收发信机单元/收信机","contents":"关闭设备电源，如图所示，将开关打到“OFF”位置，并断开机箱电源线","module": "DialogPic"},
-			        {"img":"tr_r_2.png","title":"MW-1500微波通信设备-收发信机单元收信机","contents":"将被测设备放在附件TA001上，如图所示","module": "DialogPic"},
-			        {"img":"tr_r_2.png","title":"MW-1500微波通信设备-收发信机单元/收信机","contents":"使用十字型螺丝刀拧下机箱前面板边缘的12个螺钉，如图所示，螺钉如红色圆圈所标位置","module": "DialogPic"},
-			        {"img":"tr_r_3.png","title":"MW-1500微波通信设备-收发信机单元/收信机","contents":"拆除前面板，收发信机单元视图如图所示，断开电缆W21，W","module": "DialogPic"},
-			        {"img":"tr_r_4.png","title":"MW-1500微波通信设备-收发信机单元/收信机","contents":"按照图连接测试设备","module": "DialogPic"},
-			        {"img":"tr_t_1.png","title":"MW-1500微波通信设备-收发信机单元/收信机","contents":"设备加电打开被测设备电源开关，如图所示，将开关打到“ON”位置","module": "DialogPic"},
-			        {"img":"","title":"MW-1500微波通信设备-收发信机单元/收信机","contents":"测试频点设置","module": "AUTO_TEST_TR_R"}
-			    ],
-			    "test_para":["1750","1550","1350","-35","70","50","0"],
-			    "threshold":["-7.5","-3.5"]
-	        },
-	        {
-	            "case_name": "低噪声放大器",
-	            "title": "低噪声放大器故障定位",
-	            "steps":[
-	            	{"img":"5.png","title":"散射高频设备-低噪声放大器","contents":"低噪声放大器在高频中的位置如下图所示","module": "DialogPic"},
-			        {"img":"5.png","title":"散射高频设备-低噪声放大器","contents":"拆开高频设备的下盖板，露出低噪声放大器，拧下低噪声放大器的XS1和XS2处的连接线","module": "DialogPic"},
-			        {"img":"5.png","title":"散射高频设备-低噪声放大器","contents":"高频设备和信号源、频谱仪接地，接通电源","module": "DialogPic"},
-			        {"img":"6.png","title":"散射高频设备-低噪声放大器","contents":"按图连接好高频设备内部低噪声放大器的外部接线，低噪声放大器XS1和XS2按照连接到信号源和频谱仪","module": "DialogPic"},
-			        {"img":"6.png","title":"散射高频设备-低噪声放大器","contents":"打开高频设备开关，确认低噪声放大器VCC处的供电满足+15V","module": "DialogPic"},
-			        {"img":"","title":"散射高频设备-低噪声放大器","contents":"设置信号源和频谱仪相关参数","module": "AUTO_TEST_LNA"}
-			    ],
-			    "test_para":["4700","-30","4700","100"],
-			    "threshold":["-3","10"]
-	        },
-	        {
-	            "case_name": "功放",
-	            "title": "功放故障定位",
-	            "steps":[
-	            	{"img":"7.png","title":"散射高频设备-功放","contents":"功放在高频中的位置如下图所示","module": "DialogPic"},
-			        {"img":"7.png","title":"散射高频设备-功放","contents":"拆开高频设备的下盖板，露出功放，拧下低噪声放大器的XS1和W07处的连接线","module": "DialogPic"},
-			        {"img":"7.png","title":"散射高频设备-功放","contents":"高频设备和信号源、频谱仪接地，接通电源","module": "DialogPic"},
-			        {"img":"8.png","title":"散射高频设备-功放","contents":"按图连接好高频设备外部波导开关的接线，天线接口连接上大功率衰减器，内部功放XS1接口连接到信号源，W07耦合器50dB接口连接到频谱仪","module": "DialogPic"},
-			        {"img":"8.png","title":"散射高频设备-功放","contents":"打开高频设备开关，确认功放XS2处的供电满足+28V","module": "DialogPic"},
-			        {"img":"","title":"散射高频设备-功放","contents":"设置信号源和频谱仪相关参数","module": "AUTO_TEST_PA"}
-			    ],
-			    "test_para":["4700","0","4700","100"],
-			    "threshold":["-3","3"]
-	        }, 
-	        {
-	            "case_name": "自环器",
-	            "title": "自环器故障定位",
-	            "steps":[
-	            	{"img":"9.png","title":"散射高频设备-自环器","contents":"自环器在高频中的位置如下图所示","module": "DialogPic"},
-			        {"img":"9.png","title":"散射高频设备-自环器","contents":"拆开高频设备的下盖板，露出自环器，拧下低噪声放大器的XS5处的连接线","module": "DialogPic"},
-			        {"img":"9.png","title":"散射高频设备-自环器","contents":"高频设备和信号源、频谱仪接地，接通电源","module": "DialogPic"},
-			        {"img":"10.png","title":"散射高频设备-自环器","contents":"按图连接好高频设备的外部接线，自环器XS5按照上图连接到环形器的2口，环形器的1口和3口分别接到信号源、频谱仪上","module": "DialogPic"},
-			        {"img":"10.png","title":"散射高频设备-自环器","contents":"打开高频设备开关查看设备的收发频率","module": "DialogPic"},
-			        {"img":"","title":"散射高频设备-自环器","contents":"设置信号源和频谱仪相关参数","module": "AUTO_TEST_LOOP"}
-			    ],
-			    "test_para":["4700","10","4700","100"],
-			    "threshold":["-55","-35"]
-	        },
-	        {
-	            "case_name": "滤波器",
-	            "title": "滤波器故障定位",
-	            "steps":[
-	            	{"img":"11.png","title":"散射高频设备-滤波器","contents":"滤波器在高频中的位置如下图所示，有两个，分为收滤波器和发滤波器","module": "DialogPic"},
-			        {"img":"11.png","title":"散射高频设备-滤波器","contents":"拆开高频设备的下盖板，露出滤波器，拧下滤波器的XS1和XS2处的连接线","module": "DialogPic"},
-			        {"img":"11.png","title":"散射高频设备-滤波器","contents":"高频设备和矢量网络分析仪接地，打开矢量网络分析仪电源，对仪器进行校准","module": "DialogPic"},
-			        {"img":"12.png","title":"散射高频设备-滤波器","contents":"按图连接好高频设备内部滤波器器的外部接线，滤波器XS1和XS2连接到矢量网络分析仪","module": "DialogPic"},
-			        {"img":"12.png","title":"散射高频设备-滤波器","contents":"打开高频设备开关，确认高频设备的收发频率","module": "DialogPic"},
-			        {"img":"","title":"散射高频设备-滤波器","contents":"设置矢量网络分析仪相关参数","module": "AUTO_TEST_FILTER"}
-			    ],
-			    "test_para":["4700","800"],
-			    "threshold":["-9999","-15","-2","0"]
-	        },
-	        {
-	            "case_name": "波导开关",
-	            "title": "波导开关故障定位",
-	            "steps":[
-	            	{"img":"13.png","title":"散射高频设备-波导开关","contents":"如图所示，波导开关没有在高频设备里面，安装在通信方舱内部","module": "DialogPic"},
-			        {"img":"13.png","title":"散射高频设备-波导开关","contents":"高频设备接地，接通电源","module": "DialogPic"},
-			        {"img":"14.png","title":"散射高频设备-波导开关","contents":"按图连接好高频设备的外部接线，波导开关控制接口和高频设备后面板的XS08按照上图连接","module": "DialogPic"},
-			        {"img":"14.png","title":"散射高频设备-波导开关","contents":"打开高频设备开关，更换设备的发射、接收频率，观测波导开关是否有切换动作","module": "DialogPic"},
-			        {"img":"14.png","title":"散射高频设备-波导开关","contents":"如果波导开关有切换动作，并且高频设备可以完成改频，则认为波导开关正常","module": "DialogPic"},
-			        {"img":"14.png","title":"散射高频设备-波导开关","contents":"如果波导开关没动作，则高频断电，打开波导开关的电机保护罩，手动旋转电机，看看手动是否旋转灵活，如果卡住不能旋转，则断定波导开关故障","module": "DialogPic"},
-			        {"img":"","title":"散射高频设备-波导开关","contents":"填写波导开关状态","module": "MANUAL_TEST_SWITCH"}
-			    ],
-			    "threshold":["波导开关正常","波导开关故障"]
-	        },
-	        {
-	            "case_name": "耦合器",
-	            "title": "耦合器故障定位",
-	            "steps":[
-	            	{"img":"15.png","title":"散射高频设备-耦合器","contents":"耦合器在高频中的位置如下图所示","module": "DialogPic"},
-			        {"img":"15.png","title":"散射高频设备-耦合器","contents":"拆开高频设备的上盖板，露出耦合器，拧下耦合器XS3处的连接线","module": "DialogPic"},
-			        {"img":"15.png","title":"散射高频设备-耦合器","contents":"矢量网络分析仪接地，接通电源，选择通道S21，中心频率设置为4700MHz，带宽设置为800MHz，1dB/DIV，REFERENCE VALUE： -40 dB，仪器接SMA电缆进行校准","module": "DialogPic"},
-			        {"img":"16.png","title":"散射高频设备-耦合器","contents":"按图连接好高频设备天线口和内部耦合器的接线","module": "DialogPic"},
-			        {"img":"","title":"散射高频设备-耦合器","contents":"设置矢量网络分析仪相关参数","module": "AUTO_TEST_COUPLER"}
-			    ],
-			    "test_para":["4700","800"],
-			    "threshold":["-47","-33"]
-	        },
-	        {
-	            "case_name": "监控模块",
-	            "title": "监控模块故障定位",
-	            "steps":[
-	            	{"img":"17.png","title":"散射高频设备-监控模块","contents":"监控模块在高频中的位置如下图所示，监控模块故障定位方法采用目测法","module": "DialogPic"},
-			        {"img":"17.png","title":"散射高频设备-监控模块","contents":"拆开高频设备的上盖板，露出监控模块","module": "DialogPic"},
-			        {"img":"17.png","title":"散射高频设备-监控模块","contents":"高频设备接通电源，高频设备接地，打开高频设备前面板的开关","module": "DialogPic"},
-			        {"img":"17.png","title":"散射高频设备-监控模块","contents":"观察监控模块连接器JL35-4供电接口处V2发光二极管是否亮起，如果不亮说明监控供电不正常，需要排查监控+5V供电情况","module": "DialogPic"},
-			        {"img":"17.png","title":"散射高频设备-监控模块","contents":"观察监控模块发光二极管V3、V4、V5、V6是否闪烁，如果这四个发光二极管都不亮，说明监控单元没有程序运行","module": "DialogPic"},
-			        {"img":"17.png","title":"散射高频设备-监控模块","contents":"V8、V9、V10、V11、V12、V13是网络连接指示灯，其中：V8是网口物理连接指示灯，物理连接正常指示灯亮起；V13是发数据指示灯，发一组数据亮起一次；V12是收数据指示灯， 收一组数据亮起一次；V11是数据冲突指示灯；V10是全双工和半双工指示灯，全双工工作时亮起；V9是传输速率指示灯，传输100Mbps速率时亮起，10Mbps速率时灭。","module": "DialogPic"},
-			        {"img":"","title":"散射高频设备-监控模块","contents":"填写监控模块状态","module": "MANUAL_TEST_MONITOR"}
-			    ],
-			    "threshold":["监控供电正常","监控供电故障"]
-	        }
-    ]
+	}]
 }

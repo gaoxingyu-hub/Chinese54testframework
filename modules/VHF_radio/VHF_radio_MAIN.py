@@ -1,42 +1,55 @@
-# -*- coding: utf-8 -*-
-
-"""
-Module implementing COM_CONTROL_DEVICE.
-"""
-
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog
-from PyQt5.QtCore import pyqtSignal,Qt
-from modules.info.testInfo import TestInfo
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 from PyQt5.QtWidgets import QMessageBox
 from common.config import TestModuleConfigNew, SystemConfig
-from PyQt5.QtWidgets import *
-from database.data_storage import ThTestResultsStorage
-from database.test_results_model import TestResultBase
+from common.th_thread_model import ThThreadTimerUpdateTestTime
+from modules.info.testInfo import TestInfo
 import os
 import frozen_dir
-from modules.mw1500_device.TEST1 import DialogTest1
-from modules.mw1500_device.TEST2 import DialogTest2
-from modules.mw1500_device.TEST3 import DialogTest3
-from modules.mw1500_device.TEST11 import DialogTest11
-from modules.mw1500_device.TEST12 import DialogTest12
-from modules.mw1500_device.TEST13 import DialogTest13
-import time
 from common.logConfig import Logger
-from common.th_thread_model import ThThreadTimerUpdateTestTime
-from modules.mw1500_device.mw1500_constant import ModuleConstants
-from modules.mw1500_device.Ui_mw1500_device import Ui_Dialog
+import time
+from modules.VHF_radio.TEST1 import DialogTest1
+from modules.VHF_radio.VHF_radio_CONSTANT import ModuleConstants
+from modules.VHF_radio.TEST2 import DialogTest2
+from common.info import Constants
+from modules.VHF_radio.TEST6 import DialogTest6
+from modules.VHF_radio.TEST7 import DialogTest7
+from modules.VHF_radio.TEST7point2 import DialogTest7point2
+from modules.VHF_radio.TEST7point5 import DialogTest7point5
+from modules.VHF_radio.TEST8 import DialogTest8
+from modules.VHF_radio.TEST9 import DialogTest9
+from modules.VHF_radio.TEST10_1 import DialogTest10_1
+from modules.VHF_radio.TEST10_2 import DialogTest10_2
+from modules.VHF_radio.TEST11 import DialogTest11
+from modules.VHF_radio.TEST10point2_1 import DialogTest10point2_1
+from modules.VHF_radio.TEST10point2_2 import DialogTest10point2_2
+from modules.VHF_radio.TEST10point6_2 import DialogTest10point6_2
+from modules.VHF_radio.TEST12_1 import DialogTest12_1
+from modules.VHF_radio.TEST12_2 import DialogTest12_2
+from modules.VHF_radio.TEST17 import DialogTest17
+from modules.VHF_radio.TEST20_1 import DialogTest20_1
+from modules.VHF_radio.TEST22_2 import DialogTest22_2
+from modules.VHF_radio.TEST25 import DialogTest25
+from modules.VHF_radio.TEST28 import DialogTest28
+from database.data_storage import ThTestResultsStorage
+from database.test_results_model import TestResultBase
+from modules.VHF_radio.Ui_VHF_radio_MAIN import Ui_Dialog
 from datetime import datetime
 
-
-#test
-import sys
-from PyQt5 import QtWidgets,QtCore
+from PyQt5.QtWidgets import QApplication
 
 SETUP_DIR = frozen_dir.app_path()
-logger = Logger.module_logger("mw1500_device")
-
-class MW1500_DEVICE(QDialog, Ui_Dialog):
+logger = Logger.module_logger("VHF_radio")
+#
+class VHFradioMain(QDialog, Ui_Dialog):
+    """
+    Class documentation goes here.
+    """
     signalTitle = pyqtSignal(str)
     signalStatus = pyqtSignal(str)
     debug_model = True
@@ -49,18 +62,18 @@ class MW1500_DEVICE(QDialog, Ui_Dialog):
         @param parent reference to the parent widget
         @type QWidget
         """
-        super(MW1500_DEVICE, self).__init__(parent)
+        super(VHFradioMain, self).__init__(parent)
         self.setupUi(self)
 
         self.current_test_step = 0
 
         self.config_file_path = os.path.join(
-            SETUP_DIR, "conf", "mw1500_device.json")
+            SETUP_DIR, "conf", "vhf_radio.json")
         self.system_config_file_path = os.path.join(
             SETUP_DIR, "conf", "system.json")
         self.test_config = TestModuleConfigNew(self.config_file_path)
         self.pic_file_path = os.path.join(
-            SETUP_DIR, "imgs", "mw1500_device")
+            SETUP_DIR, "imgs", "vhf_radio")
 
         self.system_config = SystemConfig(self.system_config_file_path)
         self.steps2Name = self.system_config.step2name
@@ -186,16 +199,14 @@ class MW1500_DEVICE(QDialog, Ui_Dialog):
         self.signalTitle.emit("close")
         self.close()
         logger.info("ecom_ns_1 test process close")
-
     #         return
-    # 进入测试进程
-    def test_process_control(self, action, action2=""):
+    #进入测试进程
+    def test_process_control(self, action,action2=""):
         if action == "next":
-            print('next')
             for case, step in self.test_cases_records.items():
-                if action2 == 'finish':
-                    step["current"] = step["max"] + 1
-                if step["current"] > step["max"]:
+                if action2=='finish':
+                    step["current"]=step["max"]+1
+                if step["current"]>step["max"]:
                     continue
                     # get the test case detail parameters
                 for x in range(len(self.test_config.test_case)):
@@ -205,60 +216,149 @@ class MW1500_DEVICE(QDialog, Ui_Dialog):
                         self.current_test_step_dialog = globals()[temp_test_process['module']]()
                         print(self.current_test_step_dialog)
 
-                        if temp_test_process['module'] == 'DialogTest1':
-                            self.current_test_step_dialog.initUi(self.test_config)
+                        if temp_test_process['module']=='DialogTest1' or temp_test_process['module'] == "DialogTest7point1":
                             self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_next1)
-                            self.current_test_step_dialog.signalTest.connect(self.test_data_refresh)
-                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
-                                                                       temp_test_process['contents'], os.path.join(
-                                    self.pic_file_path, temp_test_process['img']))
-                        if temp_test_process['module'] == 'DialogTest2':
-                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_next1)
-                            self.current_test_step_dialog.signalTest.connect(self.test_data_refresh)
-                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
-                                                                       temp_test_process['contents'], os.path.join(
-                                    self.pic_file_path, temp_test_process['img']))
-                        if temp_test_process['module'] == 'DialogTest3':
-                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_next1)
-                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
-                                                                       temp_test_process['contents'], os.path.join(
-                                    self.pic_file_path, temp_test_process['img']))
-                        if temp_test_process['module'] == 'DialogTest11':
-                            self.current_test_step_dialog.initUi(self.test_config)
-                            self.current_test_step_dialog.signalTest.connect(self.test_data_refresh)
-                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_next1)
-                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
-                                                                       temp_test_process['contents'], os.path.join(
-                                    self.pic_file_path, temp_test_process['img']))
-                        if temp_test_process['module'] == 'DialogTest12':
-                            self.current_test_step_dialog.initUi(self.test_config)
-                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_next1)
-                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
-                                                                       temp_test_process['contents'], os.path.join(
-                                    self.pic_file_path, temp_test_process['img']))
-                        if temp_test_process['module'] == 'DialogTest13':
-                            self.current_test_step_dialog.initUi(self.test_config)
-                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_next1)
-                            self.current_test_step_dialog.signalTest.connect(self.test_data_refresh)
                             self.current_test_step_dialog.set_contents(temp_test_process['title'],
                                                                        temp_test_process['contents'], os.path.join(
                                     self.pic_file_path, temp_test_process['img']))
 
+                        if temp_test_process['module'] == "DialogTest6" :
+                           self.current_test_step_dialog.set_state(temp_test_process['state'])
+                           self.current_test_step_dialog.initUi(self.test_config)
+                           self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_next1)
+                           self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                   temp_test_process['contents'], os.path.join(
+                                self.pic_file_path, temp_test_process['img']))
 
+                        elif temp_test_process['module'] == "DialogTest2" :
+                            self.current_test_step_dialog.set_state(temp_test_process['state'])
+                            self.current_test_step_dialog.signalTest.connect(self.test_data_refresh)
+                            self.current_test_step_dialog.signalPrint.connect(self.test_result_transform_and_storage)
+                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_next1)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], None)
+                        elif temp_test_process['module'] == "DialogTest7" or temp_test_process['module']=='DialogTest17':
+                            self.current_test_step_dialog.signalTest.connect(self.test_data_refresh)
+                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_next1)
+                            self.current_test_step_dialog.signalFinish2.connect(self.deal_signal_test_next2)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], os.path.join(
+                                    self.pic_file_path, temp_test_process['img']))
+                        elif temp_test_process['module'] == "DialogTest9":
+                            self.current_test_step_dialog.set_state(temp_test_process['state'])
+                            self.current_test_step_dialog.signalTest.connect(self.test_data_refresh)
+                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_next1)
+                            self.current_test_step_dialog.signalFinish2.connect(self.deal_signal_test_next2)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], os.path.join(
+                                    self.pic_file_path, temp_test_process['img']))
+                        elif temp_test_process['module'] == "DialogTest7point2":
+                            self.current_test_step_dialog.set_state(temp_test_process['state'])
+                            self.current_test_step_dialog.signalTest.connect(self.test_data_refresh)
+                            self.current_test_step_dialog.signalPrint.connect(self.test_result_transform_and_storage)
+                            self.current_test_step_dialog.signalFinish1.connect(
+                                self.deal_signal_test_next1)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], os.path.join(
+                                    self.pic_file_path, temp_test_process['img']))
+                        elif temp_test_process['module'] == "DialogTest7point5":
+                            self.current_test_step_dialog.set_state(temp_test_process['state'])
+                            self.current_test_step_dialog.signalTest.connect(self.test_data_refresh)
+                            self.current_test_step_dialog.signalPrint.connect(self.test_result_transform_and_storage)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], os.path.join(
+                                    self.pic_file_path, temp_test_process['img']))
+                        elif temp_test_process['module'] == "DialogTest8":
+                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_next6)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],temp_test_process['contents'],
+                                    os.path.join(self.pic_file_path, temp_test_process['img']))
+
+                        elif temp_test_process['module'] == "DialogTest10_1" :
+                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_up1)
+                            self.current_test_step_dialog.signalFinish2.connect(self.deal_signal_test_next2)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], os.path.join(
+                                    self.pic_file_path, temp_test_process['img']))
+                        elif temp_test_process['module'] == "DialogTest10_2":
+                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_up2)
+                            self.current_test_step_dialog.signalFinish2.connect(self.deal_signal_test_next2)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], os.path.join(
+                                    self.pic_file_path, temp_test_process['img']))
+                        elif temp_test_process['module'] == "DialogTest10point2_1":
+                            self.current_test_step_dialog.set_state(temp_test_process['state'])
+                            self.current_test_step_dialog.signalTest.connect(self.test_data_refresh)
+                            self.current_test_step_dialog.signalPrint.connect(self.test_result_transform_and_storage)
+                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_up1)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], os.path.join(
+                                    self.pic_file_path, temp_test_process['img']))
+                        elif temp_test_process['module'] == "DialogTest10point2_2" :
+                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_up2)
+                            self.current_test_step_dialog.signalFinish2.connect(self.deal_signal_test_next1)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], os.path.join(
+                                    self.pic_file_path, temp_test_process['img']))
+                        elif temp_test_process['module'] == "DialogTest10point6_2":
+                            self.current_test_step_dialog.set_state(temp_test_process['state'])
+                            self.current_test_step_dialog.signalTest.connect(self.test_data_refresh)
+                            self.current_test_step_dialog.signalPrint.connect(self.test_result_transform_and_storage)
+                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_up2)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], os.path.join(
+                                    self.pic_file_path, temp_test_process['img']))
+                        elif temp_test_process['module'] == "DialogTest11":
+                            self.current_test_step_dialog.signalTest.connect(self.test_data_refresh)
+                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_next10)
+                            self.current_test_step_dialog.signalFinish2.connect(self.deal_signal_test_next11)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], os.path.join(
+                                    self.pic_file_path, temp_test_process['img']))
+                        elif temp_test_process['module'] == "DialogTest12_1":
+                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_up10)
+                            self.current_test_step_dialog.signalFinish2.connect(self.deal_signal_test_next2)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], os.path.join(
+                                    self.pic_file_path, temp_test_process['img']))
+                        elif temp_test_process['module'] == "DialogTest12_2":
+                            self.current_test_step_dialog.signalTest.connect(self.test_data_refresh)
+                            self.current_test_step_dialog.signalPrint.connect(self.test_result_transform_and_storage)
+                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_up11)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], os.path.join(
+                                    self.pic_file_path, temp_test_process['img']))
+                        elif temp_test_process['module'] == "DialogTest20_1":
+                            self.current_test_step_dialog.signalTest.connect(self.test_data_refresh)
+                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_up1)
+                            self.current_test_step_dialog.signalFinish2.connect(self.deal_signal_test_next2)
+                            self.current_test_step_dialog.signalPrint.connect(self.test_result_transform_and_storage)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], os.path.join(
+                                    self.pic_file_path, temp_test_process['img']))
+                        elif temp_test_process['module'] == "DialogTest25":
+                            self.current_test_step_dialog.signalFinish1.connect(self.deal_signal_test_next2)
+                            self.current_test_step_dialog.signalFinish2.connect(self.deal_signal_test_next1)
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], os.path.join(
+                                    self.pic_file_path, temp_test_process['img']))
+                        elif temp_test_process['module'] == "DialogTest28":
+                            self.current_test_step_dialog.set_contents(temp_test_process['title'],
+                                                                       temp_test_process['contents'], os.path.join(
+                                    self.pic_file_path, temp_test_process['img']))
                         self.current_test_step_dialog.exec_()
                         break
 
     def deal_signal_test_next1(self, flag, para):
         if self.current_test_step_dialog:
-            self.current_test_step_dialog.action = 'next'
+            self.current_test_step_dialog.action='next'
             self.current_test_step_dialog.close()
             if flag == 'finish_all':
                 self.test_process_control('next', 'finish')
             else:
                 self.test_cases_records[self.current_test_case]["current"] = \
                     self.test_cases_records[self.current_test_case]["current"] + 1
-                self.test_process_control("next", None)
-
+                time.sleep(0.1)
+                self.test_process_control("next",None)
 
     def deal_signal_test_next2(self, flag, para):
         if self.current_test_step_dialog:
@@ -268,46 +368,43 @@ class MW1500_DEVICE(QDialog, Ui_Dialog):
                 self.test_process_control('next', 'finish')
             else:
                 self.test_cases_records[self.current_test_case]["current"] = \
-                    self.test_cases_records[self.current_test_case]["current"] + 2
+                self.test_cases_records[self.current_test_case]["current"] + 2
                 time.sleep(0.1)
                 self.test_process_control("next", None)
-
-    #
+#
     def deal_signal_test_next6(self, flag, para):
-        if self.current_test_step_dialog:
+       if self.current_test_step_dialog:
             self.current_test_step_dialog.action = 'next'
             self.current_test_step_dialog.close()
             if flag == 'finish_all':
                 self.test_process_control('next', 'finish')
             else:
                 self.test_cases_records[self.current_test_case]["current"] = \
-                    self.test_cases_records[self.current_test_case]["current"] + 6
+                self.test_cases_records[self.current_test_case]["current"] + 6
                 time.sleep(0.1)
-                self.test_process_control("next", None)
-
+                self.test_process_control("next",None)
     def deal_signal_test_next10(self, flag, para):
-        if self.current_test_step_dialog:
+       if self.current_test_step_dialog:
             self.current_test_step_dialog.action = 'next'
             self.current_test_step_dialog.close()
             if flag == 'finish_all':
                 self.test_process_control('next', 'finish')
             else:
                 self.test_cases_records[self.current_test_case]["current"] = \
-                    self.test_cases_records[self.current_test_case]["current"] + 10
+                self.test_cases_records[self.current_test_case]["current"] + 10
                 time.sleep(0.1)
-                self.test_process_control("next", None)
-
+                self.test_process_control("next",None)
     def deal_signal_test_next11(self, flag, para):
-        if self.current_test_step_dialog:
+       if self.current_test_step_dialog:
             self.current_test_step_dialog.action = 'next'
             self.current_test_step_dialog.close()
             if flag == 'finish_all':
                 self.test_process_control('next', 'finish')
             else:
                 self.test_cases_records[self.current_test_case]["current"] = \
-                    self.test_cases_records[self.current_test_case]["current"] + 11
+                self.test_cases_records[self.current_test_case]["current"] + 11
                 time.sleep(0.1)
-                self.test_process_control("next", None)
+                self.test_process_control("next",None)
 
     def deal_signal_test_up1(self, flag, para):
         if self.current_test_step_dialog:
@@ -317,7 +414,7 @@ class MW1500_DEVICE(QDialog, Ui_Dialog):
                 self.test_process_control('next', 'finish')
             else:
                 self.test_cases_records[self.current_test_case]["current"] = \
-                    self.test_cases_records[self.current_test_case]["current"] - 1
+                self.test_cases_records[self.current_test_case]["current"] - 1
                 time.sleep(0.1)
                 self.test_process_control("next", None)
 
@@ -330,7 +427,7 @@ class MW1500_DEVICE(QDialog, Ui_Dialog):
 
             else:
                 self.test_cases_records[self.current_test_case]["current"] = \
-                    self.test_cases_records[self.current_test_case]["current"] - 2
+                self.test_cases_records[self.current_test_case]["current"] - 2
                 time.sleep(0.1)
                 self.test_process_control("next", None)
 
@@ -342,7 +439,7 @@ class MW1500_DEVICE(QDialog, Ui_Dialog):
                 self.test_process_control('next', 'finish')
             else:
                 self.test_cases_records[self.current_test_case]["current"] = \
-                    self.test_cases_records[self.current_test_case]["current"] - 10
+                self.test_cases_records[self.current_test_case]["current"] - 10
                 time.sleep(0.1)
                 self.test_process_control("next", None)
 
@@ -354,18 +451,17 @@ class MW1500_DEVICE(QDialog, Ui_Dialog):
                 self.test_process_control('next', 'finish')
             else:
                 self.test_cases_records[self.current_test_case]["current"] = \
-                    self.test_cases_records[self.current_test_case]["current"] - 11
+                self.test_cases_records[self.current_test_case]["current"] - 11
                 time.sleep(0.1)
                 self.test_process_control("next", None)
-
-    def test_data_refresh(self, flag):
-        self.current_test_step_dialog.action = 'next'
+    def test_data_refresh(self,flag):
+        self.current_test_step_dialog.action='next'
         self.table = self.tableWidget_test_results
         rowCount = self.table.rowCount()
         self.table.insertRow(rowCount)
         current_row = rowCount
         # the column number
-        newItem = QTableWidgetItem(str(current_row + 1))
+        newItem = QTableWidgetItem(str(current_row+1))
         newItem.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table.setItem(current_row, 0, newItem)
 
@@ -390,6 +486,8 @@ class MW1500_DEVICE(QDialog, Ui_Dialog):
         self.table.setItem(current_row, 4, newItem)
         time.sleep(0.1)
 
+
+
     def get_checked_test_cases(self):
         """
         get the tree widget checked test cases
@@ -409,22 +507,20 @@ class MW1500_DEVICE(QDialog, Ui_Dialog):
                 selected_test_cases.append(item.text(0))
         return selected_test_cases
         # 数据的存储
-
-    def test_result_transform_and_storage(self, para):
+    def test_result_transform_and_storage(self,para):
         logger.info("test results storage starting.")
-        temp = TestResultBase()
+        temp= TestResultBase()
         temp.testTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         for i in range(self.tableWidget_test_results.rowCount()):
-            temp.testItems.append({'test_item': self.tableWidget_test_results.item(i, 1).text(), \
-                                   'test_condition': self.tableWidget_test_results.item(i, 2).text(), \
-                                   'test_results': self.tableWidget_test_results.item(i, 3).text(), \
-                                   'test_conclusion': self.tableWidget_test_results.item(i, 4).text()
-                                   })
+           temp.testItems.append({'test_item':self.tableWidget_test_results.item(i,1).text(),\
+                                 'test_condition':self.tableWidget_test_results.item(i,2).text(), \
+                                 'test_results': self.tableWidget_test_results.item(i, 3).text(), \
+                                  'test_conclusion': self.tableWidget_test_results.item(i, 4).text()
+                                       })
         print('test_result_storage_obj.testTime:', temp.testTime)
         print('test_result_storage_obj.toJSON():', temp.toJSON())
         ThTestResultsStorage.test_case_result_storage(temp)
         logger.info("test results storage finish.")
-
     def deal_signal_test_duration_caculate_emit_slot(self, para):
         """
         test case running duration signal process
@@ -437,7 +533,6 @@ class MW1500_DEVICE(QDialog, Ui_Dialog):
             self.label_test_duration.setText(str(int(hours)) + ":" + str(int(minutes)) + ":" + str(int(seconds)))
         except BaseException as e:
             logger.info("ecom ns1 deal_signal_test_duration_caculate_emit_slot fail:" + str(e))
-
     def start_caculate_test_duration(self):
         if not self.test_time_update_obj:
             self.test_time_update_obj = ThThreadTimerUpdateTestTime()
@@ -447,18 +542,16 @@ class MW1500_DEVICE(QDialog, Ui_Dialog):
         if not self.test_time_update_obj.thread_status:
             self.test_time_update_obj.start()
 
-
 class test_results:
     def __init__(self):
-        self.test_item = ''
-        self.test_condition = ''
-        self.test_results = ''
-        self.test_conclusion = ''
-
+        self.test_item=''
+        self.test_condition=''
+        self.test_results=''
+        self.test_conclusion=''
 
 if __name__ == '__main__':
     import sys
     app = QApplication(sys.argv)
-    mw1500=MW1500_DEVICE()
-    mw1500.show()
+    vhf=VHFradioMain()
+    vhf.show()
     sys.exit(app.exec_())

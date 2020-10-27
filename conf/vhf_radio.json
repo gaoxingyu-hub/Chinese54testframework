@@ -1,98 +1,103 @@
 {
-    "title":"VHF电台",
+    "title":"模块VHF电台",
     "module_name":"vhf_radio",
-    "test_case": ["调谐/音频/中频模块","频率合成/滤波器/功放模块","50W滤波器/50W功放"],
+    "test_case": ["vhf_radio"],
     "test_case_detail":[
         {
             "case_name": "IF_VF",
-            "title": "调谐/音频/中频模块",
-            "steps": [
-                {"img":"1.jpg","title":"测试准备","contents":"被测设备原位固定，参照图示进行接线，电台射频接口：S-RF,数据接口：DONNEES","module": "DialogPicText","category": "disassemble"},
-                {"img":"","title":"测试准备","contents":"被测电台、陪测电台、矢量信号发生器、功率计上电","module": "DialogPicText","category": "disassemble"},
-                {"img":"","title":"话柄声音测试1","contents":"先点击执行按钮，然后听手柄能否输出清晰单音，并进行结果选择后点击下一步","module": "VHF_TEST","test_para": [1,-117,1,5.6]},
-                {"img":"","title":"话柄声音测试2","contents":"先点击执行按钮，然后听手柄能否输出清晰单音，并进行结果选择后点击下一步","module": "VHF_TEST","test_para": [10,-67,1,5.6]},
-                {"img":"2.jpg","title":"收发指示灯测试","contents":"观察电台主机上收发指示灯能否点亮绿色","module": "RESULT_CONFIRM","test_para": []}
-            ]
-        },
-        {
-            "case_name": "low_power_test",
-            "title": "频率合成/滤波器/功放模块",
-            "steps": [
-                {"img":"","title":"中功率模块测试准备","contents":"需完成调谐/音频/中频模块测试才能进入该模块测试，若已完成，点击下一步，否则关闭当前对话框","module": "DialogPicText","category": "disassemble"},
-                {"img":"","title":"中功率模块测试准备","contents":"测试开始前，请确保频谱仪输入端已连接40dB衰减器","module": "DialogPicText","category": "disassemble"},
-                {"img":"","title":"中功率发射功率测试","contents":"点击下一步，软件自动进行电台发射功率测试","module": "LOW_POWER_TEST","category": "execute"}
-            ]
-        },
-        {
-            "case_name": "high_power_test",
-            "title": "50W滤波器/50W功放",
-            "steps": [
-                {"img":"1.png","title":"高功率模块测试准备","contents":"需完成调谐/音频/中频模块和频率合成/滤波器/功放模块测试才能进入该模块测试，若已完成，点击下一步，否则关闭当前对话框","module": "DialogPicText","category": "disassemble"},
-                {"img":"2.png","title":"高功率模块测试准备","contents":"测试开始前，请确保频谱仪输入端已连接40dB衰减器","module": "DialogPicText","category": "disassemble"},
-                {"img":"","title":"高功率发射功率测试","contents":"点击下一步，软件自动进行电台发射功率测试","module": "HIGH_POWER_TEST","category": "execute"}
-            ]
+            "title": "VHF电台",
+            "steps": 
+            [
+                {"state":"1","img":"1.jpg","title":"1.被测设备名称:ECOM-VHF型电台","contents":"现在开始测试ECOM-VHF电台","module": "DialogTest1"},
+                {"state":"2","img":"","title":"2.打开电台电源开关,并上电","contents":"将车载适配器前方电源开关拨至M档,将面板MENU旋钮设置为S.R档,电台是否能够加电启动","module": "DialogTest2"},
+                {"state":"3","img":"","title":"3.观察系统是否加载成功","contents":"系统是否加载成功","module": "DialogTest2"},
+                {"state":"4","img":"","title":"4.观察面板操作是否正常","contents":"操作面板上的旋钮、按键，是否能够正常切换工作方式、设置频率等","module": "DialogTest2"},
+                {"state":"5","img":"5.jpg","title":"5.打开矢量信号发生器电缆，并连接电缆","contents":"使用维修电缆连接矢量信号发生器RF端口和车载适配器S-RF接口。打开矢量信号发生器电源开关，等待设备完成启动过程","module": "DialogTest1"},
+                {"state":"6","img":"","title":"6.设置电台工作状态","contents":"操作通信主机面板，设置通信主机工作状态为：值守S.R，定明CLAIR，工作频率55MHz,备注：程序设置矢量信号发生器，频率55MHz，FM调制方式，调制信号1kHz，频偏5.6kHz，信号幅度为-113dBm","module": "DialogTest6"},
+                {"state":"7","img":"","title":"7.听手柄能否输出清晰单音","contents":"手柄式送受话器能否输出清晰的单音","module": "DialogTest7"},
+                {"state":"8","img":"8.jpg","title":"8.进行电台发功能测试，连接电缆","contents":"参照下图完成接线。使用测试电缆、固定衰减器、功率探头连接功率计A口和车载适配器S-RF接口。打开功率计电源开关，等待设备完成启动过程","module": "DialogTest8"},
+                {"state":"7.1","img":"","title":"7.1.测试通信主机接受功能是否正常","contents":"将连接车载适配器S-RF接口的电缆重新连接到通信主机ANT接口","module": "DialogTest1"},
+                {"state":"7.2","img":"","title":"7.2.听手柄能否输出清晰单音","contents":"手柄式送受话器能否输出清晰的单音","module": "DialogTest7point2"},
+                {"state":"7.3","img":"","title":"7.3.增大信号源输出，继续测试电台收功能","contents":"点击下一步继续进行测试，备注：程序设置矢量信号发生器，频率55MHz，FM调制方式，调制信号1kHz，频偏5.6kHz，信号幅度为-67dBm","module": "DialogTest6"},
+                {"state":"7.4","img":"","title":"7.4.听手柄能否输出清晰单音","contents":"手柄式送受话器能否输出清晰的单音","module": "DialogTest7point2"},
+                {"state":"7.5","img":"7.5.jpg","title":"7.5.观察面板收发指示灯的变化","contents":"电台面板R/E收发指示灯是否橙黄色点亮","module": "DialogTest7point5"},
+                {"state":"9","img":"","title":"9.测量电台小功率发55MHz功能是否正常","contents":"操作通信主机面板，设置通信主机工作状态为：小功率FP，定明CLAIR，工作频率55MHz。按下手柄式送受话器PTT按键,显示测量是否合格，备注:程序设置功率计，测量信号的频率和幅值，正常情况下频率范围为55MHz±500Hz、幅值为27dBm±1dBm(需加上30dB固定衰减)","module": "DialogTest9"},
+                {"state":"10-1","img":"","title":"10-1.测量结果合格","contents":"55MHz小功率测量值合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest10_1"},
+                {"state":"10-2","img":"","title":"10-2.测量结果不合格","contents":"55MHz小功率测量值不合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest10_2"},
+                {"state":"11","img":"","title":"11.测量电台小功率发30.025MHz功能是否正常","contents":"操作通信主机面板，设置通信主机工作状态为：小功率FP，定明CLAIR，工作频率30.025MHz。按下手柄式送受话器PTT按键，备注：程序设置功率计，测量信号的频率和幅值，正常情况下频率范围为30.025MHz±500Hz、幅值为27dBm±1dBm(需加上30dB固定衰减)","module": "DialogTest11"},
+                {"state":"10.1","img":"","title":"10.1.测量通信主机小功率发55MHz功能是否正常","contents":"将连接车载适配器S-RF接口的电缆重新连接到通信主机ANT接口。按下手柄式送受话器PTT按键，备注：程序设置功率计，测量信号的频率和幅值，正常情况下频率范围为55MHz±500Hz、幅值为27dBm±1dBm(需加上30dB固定衰减)","module": "DialogTest9"},
+                {"state":"10.2-1","img":"","title":"10.2-1.测量结果合格","contents":"55MHz小功率测量值合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest10point2_1"},
+                {"state":"10.2-2","img":"","title":"10.2-2.测量结果不合格","contents":"55MHz小功率测量值不合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest10point2_2"},
+                {"state":"10.3","img":"","title":"10.3测量通信主机小功率发30.025MHz功能是否正常.","contents":"操作通信主机面板，设置通信主机工作状态为：小功率FP，定明CLAIR，工作频率30.025MHz。按下手柄式送受话器PTT按键，备注：程序设置功率计，测量信号的频率和幅值，正常情况下频率范围为30.025MHz±500Hz、幅值为27dBm±1dBm(需加上30dB固定衰减)","module": "DialogTest9"},
+                {"state":"10.4-1","img":"","title":"10.4-1.测量结果合格","contents":"30.025MHz小功率测量值合格。请释放手柄式送受话器PTT按键（电台转为接收状态）","module": "DialogTest10point2_1"},
+                {"state":"10.4-2","img":"","title":"10.4-2.测量结果不合格","contents":"30.025MHz小功率测量值不合格。请释放手柄式送受话器PTT按键（电台转为接收状态）","module": "DialogTest10point2_2"},
+                {"state":"10.5","img":"","title":"10.5.测量通信主机小功率发87.975MHz功能是否正常","contents":"操作通信主机面板，设置通信主机工作状态为：小功率FP，定明CLAIR，工作频率87.975MHz。按下手柄式送受话器PTT按键，备注：程序设置功率计，测量信号的频率和幅值，正常情况下频率范围为87.975MHz±500Hz、幅值为27dBm±1dBm(需加上30dB固定衰减)","module": "DialogTest9"},
+                {"state":"10.6-1","img":"","title":"10.6-1.测量结果合格","contents":"87.975MHz小功率测量值合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest10point2_1"},
+                {"state":"10.6-2","img":"","title":"10.6-2.测量结果不合格","contents":"87.975MHz小功率测量值不合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest10point6_2"},
+        
+                {"state":"12-1","img":"","title":"12-1.测量结果合格","contents":"30.025MHz小功率测量值合格。请释放手柄式送受话器PTT按键（电台转为接收状态）","module": "DialogTest12_1"},
+                {"state":"12-2","img":"","title":"12-2.测量结果不合格","contents":"30.025MHz小功率测量值不合格。请释放手柄式送受话器PTT按键（电台转为接收状态）","module": "DialogTest12_2"},
+                {"state":"13","img":"","title":"13.测量电台小功率发87.975MHz功能是否正常","contents":"操作通信主机面板，设置通信主机工作状态为：小功率FP，定明CLAIR，工作频率87.975MHz。按下手柄式送受话器PTT按键，备注：程序设置功率计，测量信号的频率和幅值，正常情况下频率范围为87.975MHz±500Hz、幅值为27dBm±1dBm(需加上30dB固定衰减)","module": "DialogTest9"},
+               
+                {"state":"14-1","img":"","title":"14-1.测量结果合格","contents":"87.975MHz小功率测量值合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest10_1"},
+                {"state":"14-2","img":"","title":"14-2.测量结果不合格","contents":"87.975MHz小功率测量值不合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest10point6_2"},
+               
+                {"state":"15","img":"","title":"15.测量通信主机中功率发87.975MHz功能是否正常","contents":"操作通信主机面板，设置通信主机工作状态为：中功率MP，定明CLAIR，工作频率87.975MHz。按下手柄式送受话器PTT按键，备注：程序设置功率计，测量信号的频率和幅值，正常情况下频率范围为87.975MHz±500Hz、幅值为37dBm±1dBm(需加上30dB固定衰减)","module": "DialogTest9"},
+               
+                {"state":"16-1","img":"","title":"16-1测量结果合格","contents":"87.975MHz中功率测量值合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest10_1"},
+                {"state":"16-2","img":"","title":"16-2测量结果不合格","contents":"87.975MHz中功率测量值不合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest10point2_2"},
+               
+                 {"state":"17","img":"","title":"17.测量VHF电台中功率发55MHz功能是否正常","contents":"操作通信主机面板，设置通信主机工作状态为：中功率MP，定明CLAIR，工作频率55MHz。按下手柄式送受话器PTT按键，备注：程序设置功率计，测量信号的频率和幅值，正常情况下频率范围为55MHz±500Hz、幅值为37dBm±1dBm(需加上40dB固定衰减)","module": "DialogTest17"},
+               
+                {"state":"18-1","img":"","title":"18-1测量结果合格","contents":"87.975MHz小功率测量值合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest10_1"},
+                {"state":"18-2","img":"","title":"18-2测量结果不合格","contents":"87.975MHz小功率测量值不合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest10point2_2"},
+               
+                {"state":"19","img":"","title":"19.测量VHF电台中功率发30.025MHz功能是否正常","contents":"操作通信主机面板，设置通信主机工作状态为：中功率MP，定明CLAIR，工作频率30.025MHz。按下手柄式送受话器PTT按键，备注：程序设置功率计，测量信号的频率和幅值，正常情况下频率范围为30.025MHz±500Hz、幅值为37dBm±1dBm(需加上40dB固定衰减)","module": "DialogTest9"},
+               
+                {"state":"20-1","img":"","title":"20-1.测量结果合格","contents":"30.025MHz中功率测量值合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest20_1"},
+                {"state":"20-2","img":"","title":"20-2.测量结果不合格","contents":"30.025MHz中功率测量值不合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest10point6_2"},
+               
+                {"state":"21","img":"","title":"21.测量VHF电台大功率发30.025MHz功能是否正常","contents":"操作通信主机面板，设置通信主机工作状态为：大功率HP，定明CLAIR，工作频率30.025MHz。按下手柄式送受话器PTT按键，备注：程序设置功率计，测量信号的频率和幅值，正常情况下频率范围为30.025MHz±500Hz、幅值为47dBm±1dBm(需加上30dB固定衰减)","module": "DialogTest9"},
+               
+                {"state":"22-1","img":"","title":"22-1.测量结果合格","contents":"30.025MHz大功率测量值合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest10_1"},
+                {"state":"22-2","img":"","title":"22-2.测量结果不合格","contents":"30.025MHz大功率测量值不合格。请释放手柄式送受话器PTT按键(电台转为接收状态)","module": "DialogTest10point6_2"},
+              
+                {"state":"23","img":"","title":"23.设置VHF电台工作模式","contents":"操作通信主机面板，设置通信主机工作状态为：小功率FP，跳密S.F。将天线连接到车载适配器S-RF端口处","module": "DialogTest1"},
+                {"state":"24","img":"","title":"24.打开陪测电台并设置工作模式","contents":"打开陪测VHF电台电源开关，等待设备完成启动。设置陪测VHF电台工作状态为：小功率FP，跳密S.F，将陪测电台信道参数设置成与被测电台保持一致","module": "DialogTest1"},
+                {"state":"25","img":"","title":"25.操作两部电台之间进行语音通话","contents":"按下被测电台手柄式送受话器PTT按键，并对着话筒讲话。陪测电台是否能够收听到话音","module": "DialogTest25"},
+                
+                 {"state":"26","img":"","title":"26.操作被测电台通话时是否能够听到侧音","contents":"操作被测电台通话时是否能够听到侧音","module": "DialogTest7point5"},
+                 {"state":"27","img":"","title":"27.操作两部电台之间进行语音通话","contents":"按下陪测电台手柄式送受话器PTT按键，并对着话筒讲话。被测电台是否能够收听到话音","module": "DialogTest2"},
+                 {"state":"28","img":"","title":"28.给出判定结果","contents":"话音收发功能正常。测试结束","module": "DialogTest28"}
+            ],
+            "test_para":["55","1","5.6","-113","-67"]
         }
+      
     ],
     "test_source": [
         {
-            "name": "直流电源",
-            "number": "DH1798-1",
+            "name": "功率计",
+            "number": "KeysightN1911A",
             "count": "1",
-            "type": "仪器仪表"
-        },
-        {
-            "name": "频谱分析仪",
-            "number": "Keysight N9030B",
-            "count": "1",
-            "type": "仪器仪表"
+            "type": "仪器"
         },
         {
             "name": "矢量信号发生器",
             "number": "Keysight E8267D",
             "count": "1",
-            "type": "配件"
+            "type": "仪器"
         },
         {
-            "name": "40dB固定衰减器",
-            "number": "",
-            "count": "2",
-            "type": "配件"
-        },
-        {
-            "name": "直流电源线缆",
-            "number": "",
+            "name": "射线电缆",
+            "number": "ECOM-VHF-W001",
             "count": "1",
-            "type": "配件"
+            "type": "线缆"
         },
         {
-            "name": "电台数据线缆",
-            "number": "",
-            "count": "2",
-            "type": "配件"
-        },
-        {
-            "name": "射频线缆",
-            "number": "",
+            "name": "30dB固定衰减器",
+            "number": "DTS300GH(F)-30dB-18G",
             "count": "1",
-            "type": "配件"
-        },
-        {
-            "name": "USB-serial电缆",
-            "number": "",
-            "count": "2",
-            "type": "配件"
-        },
-        {
-            "name": "前面板转接电缆",
-            "number": "",
-            "count": "1",
-            "type": "配件"
-        },
-        {
-            "name": "后盖板转接电缆",
-            "number": "",
-            "count": "1",
-            "type": "配件"
+            "type": "附件"
         }
     ]
 }
